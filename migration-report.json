@@ -1,0 +1,15 @@
+{
+  "posts": 34,
+  "downloaded_assets": 41,
+  "pages": 65,
+  "post_urls_preserved": true,
+  "missing_legacy_features": [
+    "Original NextGEN photo gallery unavailable in source render; placeholder replaced with explanatory text."
+  ],
+  "notes": [
+    "Original article dates and substantive bodies retained.",
+    "One in-body employer reference updated from Carver Darden to Kean Miller.",
+    "YouTube embeds converted to links; Twitter links removed.",
+    "Historical content is marked as archival, not reviewed for current legal accuracy."
+  ]
+}

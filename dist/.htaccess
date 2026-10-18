@@ -1,0 +1,94 @@
+# Apache: serve static files; no PHP or WordPress required.
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+<IfModule mod_rewrite.c>
+RewriteEngine On
+# Legacy WordPress query-string permalinks.
+RewriteRule ^from\-wordpress\-back\-to\-static\-html\-with\-ai/?$ /there-and-back-again-a-blogs-tale/ [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=post-from-wordpress-back-to-static-html-with-ai$
+RewriteRule ^$ /there-and-back-again-a-blogs-tale/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=514$
+RewriteRule ^$ /inventors-are-shocked-at-this-one-little-trick-that-patent-examiners-use/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=509$
+RewriteRule ^$ /why-the-best-patent-strategy-doesnt-stop-at-allowance/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=504$
+RewriteRule ^$ /copyright-and-artificial-intelligence/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=494$
+RewriteRule ^$ /494-2/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=489$
+RewriteRule ^$ /ai-and-patent-law-navigating-the-new-frontier/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=485$
+RewriteRule ^$ /federal-trade-commission-crackdown-on-non-compete-agreements/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=468$
+RewriteRule ^$ /is-chatgpt-fair-use/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=462$
+RewriteRule ^$ /copyright-notice/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=455$
+RewriteRule ^$ /455-2/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=445$
+RewriteRule ^$ /continued-software-security-threats/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=437$
+RewriteRule ^$ /supreme-court-requires-copyright-registration-before-litigation/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=424$
+RewriteRule ^$ /aint-dere-no/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=385$
+RewriteRule ^$ /bitcoin-part-2-practical-benefits/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=359$
+RewriteRule ^$ /what-is-bitcoin/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=339$
+RewriteRule ^$ /equation-group-practical-tips/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=325$
+RewriteRule ^$ /ripoff-report-help-manage-online-reputation/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=322$
+RewriteRule ^$ /were-attorneys-not-businessmen/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=307$
+RewriteRule ^$ /what-pet-seuss-copyright-term/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=293$
+RewriteRule ^$ /pinterests-privacy-policy/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=282$
+RewriteRule ^$ /american-sniper-discussion/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=276$
+RewriteRule ^$ /public-domain-day-2015/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=260$
+RewriteRule ^$ /cello/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=223$
+RewriteRule ^$ /turkey-thermometer-patent/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=193$
+RewriteRule ^$ /louisiana-state-trademark-registration/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=179$
+RewriteRule ^$ /copyright-assignments/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=171$
+RewriteRule ^$ /dmca-misconceptions/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=165$
+RewriteRule ^$ /southern-food-beverage-museum-open/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=97$
+RewriteRule ^$ /ghostbusters-huey-lewis/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=86$
+RewriteRule ^$ /difference-patents-copyrights-trademarks/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=82$
+RewriteRule ^$ /thinking-getting-iphone-6/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=37$
+RewriteRule ^$ /dmca-copyright-agent/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=31$
+RewriteRule ^$ /owns-copyright-work/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=26$
+RewriteRule ^$ /brand-important/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=6$
+RewriteRule ^$ /about-me/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=4$
+RewriteRule ^$ /blog/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=13$
+RewriteRule ^$ /contact/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=40$
+RewriteRule ^$ /disclaimer/? [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=230$
+RewriteRule ^$ /ios/? [R=301,L]
+RewriteRule ^(?:blog/)?page/[2-9][0-9]*/?$ /blog/ [R=301,L]
+RewriteRule ^feed/?$ /feed.xml [R=301,L]
+</IfModule>
+<IfModule mod_headers.c>
+Header set X-Content-Type-Options "nosniff"
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>

@@ -1,0 +1,153 @@
+{
+  "source": {
+    "archive_url": "https://web.archive.org/web/20251011004026/https://www.carverdarden.com/attorneys/miller-iii-j-matthew/",
+    "snapshot_date": "2025-10-11",
+    "reviewed_on": "2026-10-18",
+    "corroborating_url": "https://www.keanmiller.com/team/j-matthew-miller-iii/",
+    "note": "Read through the Wayback browser view. Public copy identifies these as selected matters from Matt’s career, including work before joining his current firm. Source metadata is retained locally and is not rendered as a former-firm affiliation.",
+    "additional_source": {
+      "profile_url": "https://www.linkedin.com/in/jmatthew3/",
+      "document": "User-provided Matt Miller _ LinkedIn.pdf",
+      "reviewed_on": "2026-10-18",
+      "note": "Pages 1-3 corroborate patent prosecution and provide software and teaching history. PDF is a private source and is not included in dist."
+    }
+  },
+  "sections": [
+    {
+      "id": "patents",
+      "name": "Patents",
+      "intro": "Patent prosecution across software, networks, medical devices, and mechanical designs, together with Patent Trial and Appeal Board representation.",
+      "practice_url": "practice/patents/",
+      "matters": [
+        {
+          "title": "Child protection alerts",
+          "result": "Obtained utility patent protection for a system and method for providing child protection alerts.",
+          "reference": "U.S. Patent No. 11,037,430",
+          "url": "https://patents.google.com/patent/US11037430"
+        },
+        {
+          "title": "Laser-guided surgical tool",
+          "result": "Obtained utility patent protection for a laser-guided surgical tool.",
+          "reference": "U.S. Patent No. 11,058,441",
+          "url": "https://patents.google.com/patent/US11058441"
+        },
+        {
+          "title": "Wide-area network resource management",
+          "result": "Obtained utility patent protection for a system and architecture for robust management of resources in a wide-area network.",
+          "reference": "U.S. Patent No. 8,572,290",
+          "url": "https://patents.google.com/patent/US8572290"
+        },
+        {
+          "title": "Data mining software",
+          "result": "Prepared and prosecuted a utility patent application for a system, method, and computer program product for data mining applications, obtaining U.S. patent protection.",
+          "reference": "U.S. Patent No. 8,725,663",
+          "url": "https://patents.google.com/patent/US8725663"
+        },
+        {
+          "title": "Eyeglasses headband and choker",
+          "result": "Prosecuted a design patent application for an eyeglasses headband and choker design, obtaining U.S. design patent protection.",
+          "reference": "U.S. Design Patent No. D679,312",
+          "url": "https://patents.google.com/patent/USD679312"
+        },
+        {
+          "title": "Patent owner representation before the PTAB",
+          "result": "Represented a patent owner in the food service industry in five proceedings involving the USPTO pilot program for revised motions to amend.",
+          "case": "Red Diamond, Inc. v. Southern Visions, LLP",
+          "reference": "PTAB: PGR2019-00045; IPR2019-01661; IPR2019-01662; IPR2019-01671; IPR2020-00001"
+        }
+      ]
+    },
+    {
+      "id": "trademarks",
+      "name": "Trademarks & trade dress",
+      "intro": "Trademark enforcement and defense in federal court, opposition and cancellation proceedings, and counterfeit goods enforcement.",
+      "practice_url": "practice/trademarks/",
+      "matters": [
+        {
+          "title": "Trademark dispute settlement",
+          "result": "Reached a settlement of a trademark dispute involving a design business and a paint manufacturer.",
+          "case": "Jolie Design & Decor, Inc. et al. v. CeCe Caldwell’s Paints, LLC et al.",
+          "reference": "E.D. La. Case No. 12-cv-02387"
+        },
+        {
+          "title": "Opposition to a federal trademark registration",
+          "result": "Successfully opposed a federal trademark registration.",
+          "case": "Annie Sloan Interiors, Ltd. v. Studio van Gogh",
+          "reference": "TTAB Opposition No. 91208788"
+        },
+        {
+          "title": "Brand protection before the TTAB",
+          "result": "Successfully opposed a federal trademark registration for a paint manufacturer.",
+          "case": "Annie Sloan Interiors, Ltd. v. Chalk Country Paint, LLC",
+          "reference": "TTAB Opposition No. 91224203"
+        },
+        {
+          "title": "Trademark litigation across multiple forums",
+          "result": "Reached a settlement of trademark litigation involving opposition, cancellation, and federal court proceedings.",
+          "case": "Annie Sloan Interiors, Ltd. v. Websters Chalk Paint Powder, LLC",
+          "reference": "TTAB Opposition No. 91209403; Cancellation No. 92056863; E.D. La. Case No. 16-2929"
+        },
+        {
+          "title": "Trademark and trade dress defense",
+          "result": "Defended a print shop in a trademark and trade dress dispute spanning two federal courts.",
+          "case": "Your Preferred Printer, LLC v. United Wholesale, LLC et al.",
+          "reference": "E.D. La. Case No. 11-2954; N.D. Ill. Case No. 12-5868"
+        },
+        {
+          "title": "Counterfeit goods enforcement",
+          "result": "Assisted World Wrestling Entertainment in a counterfeit goods enforcement proceeding.",
+          "case": "World Wrestling Entertainment, Inc. v. Doe et al.",
+          "reference": "E.D. La. Case No. 18-3182"
+        }
+      ]
+    },
+    {
+      "id": "copyright",
+      "name": "Copyright",
+      "intro": "Copyright enforcement and registration involving software, mobile applications, medical illustration, and commercial advertising.",
+      "practice_url": "practice/copyright/",
+      "matters": [
+        {
+          "title": "Copyright judgment and bankruptcy proceedings",
+          "result": "Obtained a judgment for willful copyright infringement and attorney’s fees, followed by a bankruptcy judgment denying discharge of the judgment debt.",
+          "case": "Future World Electronics LLC v. Over Drive Marketing LLC et al.",
+          "reference": "N.D. Tex. Case No. 12-2124; E.D. Tex. Bankr. Case No. 14-41478; Adversary Proceeding No. 14-4081"
+        },
+        {
+          "title": "Insurance industry software",
+          "result": "Obtained copyright registration for computer software used in the insurance industry.",
+          "reference": "Copyright Registration No. TXu001939046"
+        },
+        {
+          "title": "Medical illustration",
+          "result": "Obtained copyright registration for medical illustration.",
+          "reference": "Copyright Registration No. VAu001257973"
+        },
+        {
+          "title": "Commercial advertising",
+          "result": "Obtained copyright registration for commercial print advertising materials.",
+          "reference": "Copyright Registration No. VA0001802073"
+        },
+        {
+          "title": "Mobile application",
+          "result": "Obtained copyright registration for a mobile application.",
+          "reference": "Copyright Registration No. TX0008396976"
+        }
+      ]
+    },
+    {
+      "id": "domain-names",
+      "name": "Domain names & online brands",
+      "intro": "Resolving domain-name disputes through a combination of trademark experience and technical understanding.",
+      "practice_url": "practice/technology/",
+      "matters": [
+        {
+          "title": "Transfer of a domain name registered in bad faith",
+          "result": "Obtained the transfer of a domain name through a Uniform Domain-Name Dispute-Resolution Policy proceeding.",
+          "case": "Annie Sloan Interiors, Ltd. v. Harisma Cahyani",
+          "reference": "National Arbitration Forum, FA 1510001644318, December 7, 2015"
+        }
+      ]
+    }
+  ]
+}

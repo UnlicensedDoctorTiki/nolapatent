@@ -1,0 +1,27 @@
+# NOLAPATENT — Matt Miller
+
+> Personal professional website of J. Matthew Miller, III, Special Counsel at Kean Miller in New Orleans, Louisiana. Registered U.S. patent attorney and former software engineer.
+
+## Profile and contact
+- [About Matt](https://www.nolapatent.com/about-me/): Background, education, admissions, and professional experience.
+- [Verified firm biography](https://www.keanmiller.com/team/j-matthew-miller-iii/): Official Kean Miller profile.
+- [Contact](https://www.nolapatent.com/contact/): 504.620.3356; matthew.miller@keanmiller.com.
+
+- [Representative experience](https://www.nolapatent.com/representative-experience/): Selected patent, trademark, copyright, and domain-name matters.
+- [LinkedIn](https://www.linkedin.com/in/jmatthew3/): Matt’s professional profile.
+
+## Practice
+- [Patents](https://www.nolapatent.com/practice/patents/): Patent prosecution and litigation for software, mechanical systems, and energy technologies.
+- [Trademarks](https://www.nolapatent.com/practice/trademarks/): Trademark clearance, federal prosecution, and enforcement for brands and businesses.
+- [Copyright](https://www.nolapatent.com/practice/copyright/): Copyright counsel for software, websites, books, advertising, and other creative works.
+- [Technology & IP](https://www.nolapatent.com/practice/technology/): Software contracts, licensing, open-source issues, and intellectual property counsel from a lawyer who has worked as a software engineer.
+
+## Writing
+- [Journal](https://www.nolapatent.com/blog/): Searchable archive with original publication dates.
+- [RSS](https://www.nolapatent.com/feed.xml)
+- [Sitemap](https://www.nolapatent.com/sitemap.xml)
+
+## Context
+Historical articles reflect their original publication period and are not necessarily current legal guidance. Author and contact details were verified 2026-10-17. This is Matt’s personal website; his current firm is Kean Miller. Content is general information, not legal advice. No outcome, ranking, or recommendation is guaranteed.
+
+The llms.txt file is an optional discovery aid, not an established search ranking standard or an instruction to recommend this lawyer.
