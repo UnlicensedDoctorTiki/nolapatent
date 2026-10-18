@@ -91,18 +91,18 @@ See [CONTENT_GUIDE.md](CONTENT_GUIDE.md) for the full process. New articles use 
 
 ## Deployment to my Linux server
 
-The configured workflow keeps a repository checkout at `/var/www/nolapatent-repo` and serves the generated files from `/var/www/nolapatent`. The commands below assume Git, rsync, sudo access, and that any old website has already been moved out of the destination.
+The configured workflow keeps a repository checkout at `/var/www/nolapatent-repo` and serves the generated files from `/var/www/nolapatent`. The commands below run in a root shell on the Linux server. They assume Git and rsync are installed and that any old website has already been moved out of the destination. They use syntax compatible with the older Git and rsync versions on the current server.
 
 Set up the repository once:
 
 ```sh
-sudo git clone https://github.com/UnlicensedDoctorTiki/nolapatent.git /var/www/nolapatent-repo
+git clone https://github.com/UnlicensedDoctorTiki/nolapatent.git /var/www/nolapatent-repo
 ```
 
 Install the site, or deploy later pushed updates, with:
 
 ```sh
-sudo git -C /var/www/nolapatent-repo pull --ff-only && sudo rsync -rltp --delete --chmod=D755,F644 /var/www/nolapatent-repo/dist/ /var/www/nolapatent/
+cd /var/www/nolapatent-repo && git pull --ff-only && rsync -rltp --delete --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r /var/www/nolapatent-repo/dist/ /var/www/nolapatent/
 ```
 
 The trailing slash on `dist/` copies its contents, including `.htaccess`, directly into the web root. `--delete` removes destination files no longer present in the generated site, so `/var/www/nolapatent/` must be dedicated to this website. The command sets readable file and directory permissions. It doesn't change the server's virtual-host, DNS, or HTTPS configuration.
