@@ -105,6 +105,15 @@ Install the site, or deploy later pushed updates, with:
 cd /var/www/nolapatent-repo && git pull --ff-only && rsync -rltp --delete --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r /var/www/nolapatent-repo/dist/ /var/www/nolapatent/
 ```
 
+For a saved update command, copy [`scripts/update-server.sh`](scripts/update-server.sh) outside the repository once, then run that copy from a root shell:
+
+```sh
+cp /var/www/nolapatent-repo/scripts/update-server.sh /root/update-nolapatent.sh
+bash /root/update-nolapatent.sh
+```
+
+Run `bash /root/update-nolapatent.sh` for later updates. The script stops if the pull fails and checks for the generated homepage and stylesheet before copying or deleting destination files. Keeping the running copy outside the repository prevents a pull from changing the script while it runs. If the script itself is updated later, copy the new version to `/root/` before the next run.
+
 The trailing slash on `dist/` copies its contents, including `.htaccess`, directly into the web root. `--delete` removes destination files no longer present in the generated site, so `/var/www/nolapatent/` must be dedicated to this website. The command sets readable file and directory permissions. It doesn't change the server's virtual-host, DNS, or HTTPS configuration.
 
 Serve only `/var/www/nolapatent/`, not the repository root. Make changes in the local source project and push them through GitHub rather than editing the server checkout. If the pull fails, the `&&` prevents the copy from running.
