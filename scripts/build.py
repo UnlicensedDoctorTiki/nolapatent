@@ -50,14 +50,14 @@ def footer(route):
 def person():
     return {'@type':'Person','@id':BASE+'/#matt-miller','name':P['name'],'alternateName':'Matt Miller','url':BASE+'/about-me/','image':BASE+'/assets/matt-miller.webp','jobTitle':P['job_title'],'email':P['email'],'telephone':P['telephone'],'worksFor':{'@type':'Organization','name':'Kean Miller','url':'https://www.keanmiller.com/'},'sameAs':[P['bio_url'],P['github_url'],P['linkedin_url']],'knowsAbout':['Patent prosecution','Patent litigation','Trademarks','Copyright','Trade secrets','Software','Computer science','Software contracts','Software licensing','Open-source software'],'alumniOf':[{'@type':'CollegeOrUniversity','name':'Tulane University Law School'},{'@type':'CollegeOrUniversity','name':'Duke University'}],'address':{'@type':'PostalAddress','streetAddress':P['street'],'addressLocality':P['city'],'addressRegion':'LA','postalCode':P['postal_code'],'addressCountry':'US'}}
 
-def page(route,title,description,body,kind='WebPage',extra=None,index=True,with_contact=True,canon=None):
+def page(route,title,description,body,kind='WebPage',extra=None,index=True,with_contact=True,canon=None,title_tag=None):
     url=canonical(canon if canon is not None else route)
     graph=[person(),{'@type':'WebSite','@id':BASE+'/#website','name':'NOLAPATENT','url':BASE+'/','publisher':{'@id':BASE+'/#matt-miller'},'inLanguage':'en-US'},{'@type':kind,'@id':url+'#webpage','url':url,'name':title,'description':description,'inLanguage':'en-US','isPartOf':{'@id':BASE+'/#website'},'about':{'@id':BASE+'/#matt-miller'}}]
     if kind=='ProfilePage': graph[-1]['mainEntity']={'@id':BASE+'/#matt-miller'}
     if extra: graph+=extra
     if route:
         graph.append({'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':'Home','item':BASE+'/'},{'@type':'ListItem','position':2,'name':title,'item':url}]})
-    meta_title=title+' | Matt Miller · NOLAPATENT' if route else title
+    meta_title=title_tag if title_tag is not None else (title+' | Matt Miller · NOLAPATENT' if route else title)
     data=json.dumps({'@context':'https://schema.org','@graph':graph},ensure_ascii=False).replace('</','<\\/')
     html=f'''<!doctype html>
 <html lang="en-US"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{e(meta_title)}</title><meta name="description" content="{e(description)}"><meta name="author" content="{e(P['name'])}"><meta name="robots" content="{'index, follow, max-image-preview:large' if index else 'noindex, follow'}"><link rel="canonical" href="{url}"><meta name="theme-color" content="#183e3b"><meta property="og:type" content="{'article' if kind=='Article' else 'website'}"><meta property="og:locale" content="en_US"><meta property="og:site_name" content="NOLAPATENT"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(description)}"><meta property="og:url" content="{url}"><meta property="og:image" content="{BASE}/assets/social-card.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Matt Miller, New Orleans patent and intellectual property attorney at Kean Miller"><link rel="icon" href="{pathlink(route,'assets/favicon.svg')}" type="image/svg+xml"><link rel="alternate" type="application/rss+xml" title="NOLAPATENT Insights" href="{pathlink(route,'feed.xml')}"><link rel="stylesheet" href="{pathlink(route,'assets/site.css')}"><script type="application/ld+json">{data}</script><script src="{pathlink(route,'assets/site.js')}" defer></script></head><body>{header(route)}<main id="main">{body}</main>{contact(route) if with_contact else ''}{footer(route)}</body></html>'''
@@ -120,7 +120,7 @@ def home():
     featured += [next(p for p in POSTS if p['id']==i) for i in [509,504,489] if not any(p['id']==i for p in featured)][:3-len(featured)]
     body=f'''<section class="hero"><div class="wrap hero-layout"><div class="hero-copy"><span class="eyebrow">New Orleans · Intellectual property law</span><h1>A lawyer who<br>understands<br><em>technology.</em></h1><p class="hero-intro">I help businesses protect inventions and address software contracts, licensing, and open-source issues. As a former software engineer and registered patent attorney, I bring firsthand experience building technology to the work of protecting it.</p><p class="hero-name"><strong>Matt Miller</strong><span>Registered Patent Attorney · Special Counsel at Kean Miller</span></p><div class="hero-actions">{link(route,'contact/','Discuss your project <span aria-hidden="true">↗</span>','button')}{link(route,'about-me/','Meet Matt <span aria-hidden="true">↗</span>','text-link')}</div></div><div class="portrait-stage"><div class="drawing">{art(0)}</div><img src="{pathlink(route,'assets/matt-miller.webp')}" width="700" height="700" alt="Matt Miller, patent and intellectual property attorney at Kean Miller" fetchpriority="high"><div class="portrait-caption"><strong>Technical roots. Legal perspective.</strong><small>New Orleans, Louisiana</small></div></div></div></section>
 <div class="trust-strip"><div class="wrap trust-inner"><span>Registered U.S. Patent Attorney</span><span>Former software engineer</span><span>Named inventor on U.S. patents</span><span>Special Counsel · Kean Miller</span></div></div>
-<section class="section" id="practice"><div class="wrap"><span class="eyebrow">How I can help</span><div class="section-heading"><h2>Original thinking.<br>Thoughtful protection.</h2><p>From an invention on the drawing board to a brand in the marketplace, your intellectual property deserves a considered strategy.</p></div><div class="practice-grid">{practices}</div></div></section>
+<section class="section" id="practice"><div class="wrap"><span class="eyebrow">How I can help</span><div class="section-heading"><h2>Original thinking.<br>Thoughtful protection.</h2><p>From an invention on the drawing board to a brand in the marketplace, your intellectual property deserves a considered strategy.<br>{link(route,"practice/software-patents/","Software patent attorney in New Orleans ↗","text-link")}</p></div><div class="practice-grid">{practices}</div></div></section>
 {patent_gallery(route)}
 {experience_section(route)}
 <section class="section"><div class="wrap"><span class="eyebrow">Notes from the intersection</span><div class="section-heading"><h2>Law. Technology.<br>What comes next.</h2>{link(route,'blog/','Explore all insights <span aria-hidden="true">↗</span>','text-link')}</div><div class="insight-grid">{''.join(card(route,p,i,True) for i,p in enumerate(featured))}</div><div class="firm-insights"><strong>More writing at Kean Miller</strong><a href="https://www.keanmiller.com/insights/blog/intellectual-property-law/recent-uspto-guidance-makes-it-easier-to-obtain-design-patent-protection-for-digital-interfaces/">Design patent protection for digital interfaces <span aria-hidden="true">↗</span><br><span class="subtle">March 17, 2026 · Kean Miller</span></a><a href="https://www.keanmiller.com/insights/blog/intellectual-property-law/uspto-director-intends-to-embrace-ai-on-many-levels/">The USPTO and artificial intelligence <span aria-hidden="true">↗</span><br><span class="subtle">November 3, 2025 · Kean Miller</span></a></div></div></section>
@@ -202,9 +202,24 @@ def practice_pages():
         route='practice/'+p['slug']+'/'
         relevant=[q for q in POSTS if q['topic'] in p['topics']][:3]
         body=pagehero(route,p['title'],p['intro'],'New Orleans · '+p['name'])
-        body+=f'<div class="wrap practice-layout"><article class="prose">{p["body"]}<p>{link(route,"representative-experience/#"+p["slug"] if p["slug"]!="technology" else "representative-experience/#domain-names","View representative matters ↗","text-link")}</p><p class="sources">Experience described in <a href="{P["bio_url"]}">Matt’s Kean Miller biography</a>.</p></article><aside class="practice-aside"><h2>How Matt can help</h2><ul>'+''.join('<li>'+e(x)+'</li>' for x in p['items'])+f'</ul>{link(route,"contact/","Talk with Matt ↗","button")}</aside></div>'+(f'<section class="practice-patent-history"><div class="wrap"><span class="eyebrow">Technical detail, on paper</span>{patent_plate(route,"tesla")}</div></section>' if p['slug']=='patents' else '')+'<section class="related"><div class="wrap"><span class="eyebrow">Explore the subject</span><h2>From the journal.</h2><div class="insight-grid">'+''.join(card(route,q,i) for i,q in enumerate(relevant))+'</div></div></section>'
+        practice_body=p['body']
+        if p['slug']=='patents':
+            practice_body+=f'<p>{link(route,"practice/software-patents/","Software patent counsel: engineering experience, eligibility, and drafting ↗","text-link")}</p>'
+        body+=f'<div class="wrap practice-layout"><article class="prose">{practice_body}<p>{link(route,"representative-experience/#"+p["slug"] if p["slug"]!="technology" else "representative-experience/#domain-names","View representative matters ↗","text-link")}</p><p class="sources">Experience described in <a href="{P["bio_url"]}">Matt’s Kean Miller biography</a>.</p></article><aside class="practice-aside"><h2>How Matt can help</h2><ul>'+''.join('<li>'+e(x)+'</li>' for x in p['items'])+f'</ul>{link(route,"contact/","Talk with Matt ↗","button")}</aside></div>'+(f'<section class="practice-patent-history"><div class="wrap"><span class="eyebrow">Technical detail, on paper</span>{patent_plate(route,"tesla")}</div></section>' if p['slug']=='patents' else '')+'<section class="related"><div class="wrap"><span class="eyebrow">Explore the subject</span><h2>From the journal.</h2><div class="insight-grid">'+''.join(card(route,q,i) for i,q in enumerate(relevant))+'</div></div></section>'
         schema={'@type':'Service','name':p['name']+' legal services','serviceType':p['name'],'provider':{'@id':BASE+'/#matt-miller'},'url':canonical(route),'description':p['intro']}
         page(route,p['name']+' Attorney in New Orleans',p['intro']+' Matt Miller, registered patent attorney and Special Counsel at Kean Miller.',body,extra=[schema])
+
+def software_patents():
+    route='practice/software-patents/'
+    title='Software Patent Attorney in New Orleans'
+    description='Matt Miller is a software patent attorney in New Orleans at Kean Miller. A former software engineer, he handles patent preparation, prosecution, and strategy.'
+    body=pagehero(route,'Software Patent Attorney with a Software Engineering Background','Software patent preparation, prosecution, and strategy informed by firsthand development experience.','New Orleans · Software patents')
+    text=(ROOT/'content/pages/software-patents.html').read_text(encoding='utf-8')
+    text=rewrite_content(text,route)
+    body+=f'<div class="wrap practice-layout"><article class="prose">{text}</article><aside class="practice-aside"><h2>Software patent counsel</h2><ul><li>Application preparation and prosecution</li><li>Patent portfolio strategy</li><li>Patent litigation</li><li>PTAB proceedings</li></ul>{link(route,"contact/","Contact Matt ↗","button")}</aside></div>'
+    schema={'@type':'Service','name':'Software patent legal services','serviceType':'Software patent counsel','provider':{'@id':BASE+'/#matt-miller'},'url':canonical(route),'description':description}
+    page(route,title,description,body,extra=[schema],title_tag='Software Patent Attorney in New Orleans | Matt Miller')
+
 
 def simple_pages():
     route='contact/'
@@ -275,7 +290,7 @@ def machine_files():
 def main():
     DIST.mkdir(exist_ok=True)
     shutil.copytree(ROOT/'assets',DIST/'assets',dirs_exist_ok=True)
-    home();about();blog();representative_experience();practice_pages();simple_pages()
+    home();about();blog();representative_experience();practice_pages();software_patents();simple_pages()
     for p in POSTS:
         article(p)
         article_aliases(p)
