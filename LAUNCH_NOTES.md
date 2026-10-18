@@ -12,6 +12,8 @@ References: [Google AI features and websites](https://developers.google.com/sear
 
 ## Before replacing production
 
+Apache hosting note: the generated `.htaccess` leaves `Options` and `DirectoryIndex` to the server configuration. The current server rejects `Options` in `.htaccess` with a 500 error, and `DirectoryIndex` requires its own override permission. Configure `Options -Indexes` and `DirectoryIndex index.html` in the appropriate virtual-host `<Directory /var/www/nolapatent>` block if needed; the usual Debian index configuration already includes `index.html`. Do not add those directives back to the generated `.htaccess` or broaden `AllowOverride` just to make them work. Redirects, error documents, and headers still depend on the corresponding overrides being allowed.
+
 1. Back up the old WordPress files and database. The public API export in this project is a migration source, not a complete server backup.
 2. Review the homepage, professional biography, disclaimer, privacy text, office details, and author notes. The disclaimer was rewritten for the current affiliation; it is draft website copy for Matt to review before public use. If the host adds analytics, forms, cookies, or third-party services, update the privacy page to match.
 3. Decide which historical legal posts need substantive updates. Their archive notices intentionally prevent readers from mistaking the original analysis for a current review. The 2024 FTC noncompete post, DMCA material, and AI/copyright discussions are examples where current status deserves attention before active promotion.

@@ -262,7 +262,7 @@ def machine_files():
     for i in range(2,5):
         redirects+=f'/page/{i}/ /blog/ 301\n/blog/page/{i}/ /blog/ 301\n'
     (DIST/'_redirects').write_text(redirects,encoding='utf-8')
-    apache='''# Apache: serve static files; no PHP or WordPress required.\nOptions -Indexes\nDirectoryIndex index.html\nErrorDocument 404 /404.html\n<IfModule mod_rewrite.c>\nRewriteEngine On\n# Legacy WordPress query-string permalinks.\n'''
+    apache='''# Apache: serve static files; no PHP or WordPress required.\n# Configure Options -Indexes and DirectoryIndex index.html in the virtual host, not here.\nErrorDocument 404 /404.html\n<IfModule mod_rewrite.c>\nRewriteEngine On\n# Legacy WordPress query-string permalinks.\n'''
     for p in POSTS:
         for alias in p.get('aliases',[]):
             apache+=f'RewriteRule ^{re.escape(alias.rstrip("/"))}/?$ /{p["slug"]}/ [R=301,L]\n'
