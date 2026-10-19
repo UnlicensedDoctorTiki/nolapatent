@@ -6,6 +6,7 @@ Validated October 18, 2026. Scope: Schema.org JSON-LD only. The site still has t
 
 Source and validation files:
 
+- [`.gitattributes`](../.gitattributes): preserves the pinned vocabulary's original LF line endings and checksum across operating systems.
 - [`scripts/build.py`](../scripts/build.py): delegates graph construction to a reusable module; no content/layout changes.
 - [`scripts/structured_data.py`](../scripts/structured_data.py): shared Person, employer, education, work location, WebSite, page, topic, and article relationships.
 - [`scripts/check_structured_data.py`](../scripts/check_structured_data.py): syntax, official vocabulary, domain/range, identity/reference, metadata/date, and visible-fact checks; optional non-schema baseline comparison.

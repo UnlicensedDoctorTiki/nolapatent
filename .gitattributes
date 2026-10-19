@@ -1,0 +1,2 @@
+# Preserve the pinned vocabulary's published checksum on Windows and Linux.
+source/schemaorg/schemaorg-current-https.jsonld text eol=lf
