@@ -5,6 +5,7 @@ from datetime import date
 from html import escape, unescape
 from urllib.parse import urlsplit, parse_qs
 from xml.sax.saxutils import escape as xe
+from structured_data import page_graph
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT/'dist'
@@ -47,16 +48,9 @@ def contact(route):
 def footer(route):
     return f'''<footer class="site-footer"><div class="wrap"><div class="footer-top"><div><span class="footer-brand">NOLAPATENT</span><br><small class="subtle">Intellectual property. A technical perspective.</small></div><nav aria-label="Footer">{link(route,'about-me/','About Matt')}{link(route,'representative-experience/','Experience')}{link(route,'blog/','Insights')}{link(route,P['linkedin_url'],'LinkedIn')}{link(route,'disclaimer/','Disclaimer')}{link(route,'privacy/','Privacy')}{link(route,'feed.xml','RSS feed')}</nav></div><div class="footer-bottom"><p>This is the personal website of J. Matthew Miller, III, Special Counsel at Kean Miller. Louisiana-licensed lawyer and registered U.S. patent attorney. General information only; not legal advice. No attorney-client relationship is created by visiting or contacting this site.</p><span>© {DATE[:4]} Matt Miller</span></div></div></footer>'''
 
-def person():
-    return {'@type':'Person','@id':BASE+'/#matt-miller','name':P['name'],'alternateName':'Matt Miller','url':BASE+'/about-me/','image':BASE+'/assets/matt-miller.webp','jobTitle':P['job_title'],'email':P['email'],'telephone':P['telephone'],'worksFor':{'@type':'Organization','name':'Kean Miller','url':'https://www.keanmiller.com/'},'sameAs':[P['bio_url'],P['github_url'],P['linkedin_url']],'knowsAbout':['Patent prosecution','Patent litigation','Trademarks','Copyright','Trade secrets','Software','Computer science','Software contracts','Software licensing','Open-source software'],'alumniOf':[{'@type':'CollegeOrUniversity','name':'Tulane University Law School'},{'@type':'CollegeOrUniversity','name':'Duke University'}],'address':{'@type':'PostalAddress','streetAddress':P['street'],'addressLocality':P['city'],'addressRegion':'LA','postalCode':P['postal_code'],'addressCountry':'US'}}
-
 def page(route,title,description,body,kind='WebPage',extra=None,index=True,with_contact=True,canon=None,title_tag=None):
     url=canonical(canon if canon is not None else route)
-    graph=[person(),{'@type':'WebSite','@id':BASE+'/#website','name':'NOLAPATENT','url':BASE+'/','publisher':{'@id':BASE+'/#matt-miller'},'inLanguage':'en-US'},{'@type':kind,'@id':url+'#webpage','url':url,'name':title,'description':description,'inLanguage':'en-US','isPartOf':{'@id':BASE+'/#website'},'about':{'@id':BASE+'/#matt-miller'}}]
-    if kind=='ProfilePage': graph[-1]['mainEntity']={'@id':BASE+'/#matt-miller'}
-    if extra: graph+=extra
-    if route:
-        graph.append({'@type':'BreadcrumbList','itemListElement':[{'@type':'ListItem','position':1,'name':'Home','item':BASE+'/'},{'@type':'ListItem','position':2,'name':title,'item':url}]})
+    graph=page_graph(P,route,title,description,kind,extra,canonical_route=canon)
     meta_title=title_tag if title_tag is not None else (title+' | Matt Miller · NOLAPATENT' if route else title)
     data=json.dumps({'@context':'https://schema.org','@graph':graph},ensure_ascii=False).replace('</','<\\/')
     html=f'''<!doctype html>

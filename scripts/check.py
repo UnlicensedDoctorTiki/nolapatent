@@ -49,6 +49,9 @@ for post in posts:
 for path in ['sitemap.xml','feed.xml']:
     from lxml import etree
     etree.parse(str(DIST/path))
+from check_structured_data import validate_site
+schema_errors, _ = validate_site(ROOT)
+errors.extend(schema_errors)
 if errors:
     print('\n'.join(errors))
     raise SystemExit(f'{len(errors)} checks failed')

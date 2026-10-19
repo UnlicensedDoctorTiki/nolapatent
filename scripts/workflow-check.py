@@ -9,7 +9,7 @@ with tempfile.TemporaryDirectory(prefix='post-workflow-',dir=ROOT/'qa') as work:
     shutil.copytree(ROOT/'assets',stage/'assets')
     shutil.copytree(ROOT/'source',stage/'source')
     (stage/'scripts').mkdir()
-    for name in ['add_post.py','build.py','check.py']:
+    for name in ['add_post.py','build.py','structured_data.py','check.py','check_structured_data.py']:
         shutil.copy2(ROOT/'scripts'/name,stage/'scripts'/name)
     post={'slug':'workflow-verification-article','title':'A new article workflow verification','date':'2026-10-17','published':'2026-10-17T12:00:00-05:00','topic':'Patents','excerpt':'A local test of the future publishing workflow.','author_note':'This temporary test note is unique and is never published to the real website.','body_html':'<p>A new article body.</p><h2>A useful section</h2><p>See the <a href="https://www.nolapatent.com/practice/patents/">patent practice page</a>.</p>'}
     template=stage/'new.json'
