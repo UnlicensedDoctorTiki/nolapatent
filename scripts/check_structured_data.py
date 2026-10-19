@@ -220,7 +220,8 @@ def validate_site(root=ROOT, baseline=None):
                     f'{label}: software patent subjects missing')
 
     for post in posts:
-        url = base + '/' + post['slug'] + '/'
+        route = post.get('route', post['slug'] + '/')
+        url = base + '/' + route
         node = json.loads(shared.get(url + '#article', '{}'))
         require(node.get('@type') == 'BlogPosting', f'{post["slug"]}: missing BlogPosting')
         require(node.get('author') == {'@id': person_id} and node.get('publisher') == {'@id': person_id},
@@ -228,7 +229,7 @@ def validate_site(root=ROOT, baseline=None):
         require(node.get('datePublished') == post['published'], f'{post["slug"]}: unsupported publication date')
         require(node.get('dateModified') == post.get('modified'), f'{post["slug"]}: unsupported modification date')
         require(node.get('headline') == post['title'], f'{post["slug"]}: headline disagrees with content metadata')
-        doc = html.fromstring((root / 'dist' / post['slug'] / 'index.html').read_text(encoding='utf-8'))
+        doc = html.fromstring((root / 'dist' / route / 'index.html').read_text(encoding='utf-8'))
         require(doc.xpath('string(//h1)') == post['title'], f'{post["slug"]}: headline disagrees with visible heading')
         require(doc.xpath('//time/@datetime')[0] == post['date'], f'{post["slug"]}: visible publication date differs')
         webpage = json.loads(shared.get(url + '#webpage', '{}'))

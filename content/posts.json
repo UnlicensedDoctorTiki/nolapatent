@@ -526,5 +526,21 @@
     "aliases": [
       "from-wordpress-back-to-static-html-with-ai/"
     ]
+  },
+  {
+    "slug": "can-software-be-patented",
+    "route": "blog/can-software-be-patented/",
+    "title": "Can Software Be Patented? A Software Patent Attorney Explains",
+    "date": "2026-10-19",
+    "published": "2026-10-19T08:58:30-05:00",
+    "topic": "Patents",
+    "excerpt": "Can software be patented in the United States? Matt Miller explains eligibility, technical disclosure, current USPTO guidance, and what inventors should prepare.",
+    "author_note": "Matt is a registered U.S. patent attorney, former professional software engineer, and Duke computer science graduate. His experience developing software helps him work through the architecture, algorithms, and implementation details behind software patent applications.",
+    "archived": false,
+    "categories": [
+      "patent",
+      "software"
+    ],
+    "id": "post-can-software-be-patented"
   }
 ]

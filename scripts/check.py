@@ -45,7 +45,7 @@ for path in pages:
 posts=json.loads((ROOT/'content/posts.json').read_text(encoding='utf-8'))
 require(len({p['author_note'] for p in posts})==len(posts),'Author notes must be unique')
 for post in posts:
-    require((DIST/post['slug']/'index.html').exists(),f'Missing legacy post: {post["slug"]}')
+    require((DIST/post.get('route',post['slug']+'/')/'index.html').exists(),f'Missing post: {post["slug"]}')
 for path in ['sitemap.xml','feed.xml']:
     from lxml import etree
     etree.parse(str(DIST/path))

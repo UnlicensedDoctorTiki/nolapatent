@@ -5,6 +5,8 @@ ErrorDocument 404 /404.html
 RewriteEngine On
 # Legacy WordPress query-string permalinks.
 RewriteRule ^from\-wordpress\-back\-to\-static\-html\-with\-ai/?$ /there-and-back-again-a-blogs-tale/ [R=301,L]
+RewriteCond %{QUERY_STRING} ^(?:p|page_id)=post-can-software-be-patented$
+RewriteRule ^$ /blog/can-software-be-patented/? [R=301,L]
 RewriteCond %{QUERY_STRING} ^(?:p|page_id)=post-from-wordpress-back-to-static-html-with-ai$
 RewriteRule ^$ /there-and-back-again-a-blogs-tale/? [R=301,L]
 RewriteCond %{QUERY_STRING} ^(?:p|page_id)=514$

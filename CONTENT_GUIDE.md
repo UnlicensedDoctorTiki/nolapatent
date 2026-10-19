@@ -43,6 +43,8 @@ Describe verified experience in natural language. Do not repeat a list of city/p
 
 Copy `post-template.json`, fill it with the finished reviewed content, run `scripts/add_post.py` with its path, then run `scripts/build.py` and `scripts/check.py`. Preview the new post at desktop and phone sizes. Check its title, sources, dates, author note, related posts, and contact links. The JSON source used to add a post may remain outside `dist`; only generated public pages go to the host.
 
+For a new article under the blog directory, add an optional `route` field such as `"route": "blog/can-software-be-patented/"`. Keep `slug` as the filename without slashes. The importer accepts only the slug followed by `/`, optionally prefixed with `blog/`. Omitting `route` preserves the existing root-level article convention. Cards, canonical metadata, structured data, RSS, and sitemap use the selected route; do not change old article routes when adding a new post.
+
 Use `archived: false` for new work. The homepage automatically gives new, non-archival posts priority in its three featured articles. Keep old articles’ original dates. Add `modified` only after substantive review and revision; changing the biography or layout is not a legal-content update. Future-dated drafts must stay outside `content/posts.json` until their publication date.
 
 ## Future marketing topics

@@ -17,7 +17,9 @@ e=lambda x:escape(str(x),quote=True)
 DATE=date.today().isoformat()
 GENERATED=[]
 PAGES={}
-ID_ROUTES={str(p['id']):p['slug']+'/' for p in POSTS}
+def post_route(p): return p.get('route',p['slug']+'/')
+
+ID_ROUTES={str(p['id']):post_route(p) for p in POSTS}
 ID_ROUTES.update({'6':'about-me/','4':'blog/','13':'contact/','40':'disclaimer/','230':'ios/'})
 
 def pathlink(route, target=''):
@@ -75,7 +77,7 @@ def art(n=0):
 
 def card(route,p,n=0,illustration=False):
     haystack=e((p['title']+' '+p['excerpt']+' '+p['topic']).lower())
-    return f'''<a class="insight-card" href="{pathlink(route,p['slug']+'/')}" data-article data-topic="{e(p['topic'])}" data-search="{haystack}">{'<div class="insight-art">'+art(n)+'</div>' if illustration else ''}<span class="tag">{e(p['topic'])}</span><div class="article-meta"><time datetime="{p['date']}">{pretty(p['date'])}</time> · {reading(p)} min read</div><h3>{e(p['title'])}</h3><p>{e(p['excerpt'])}</p><span class="read-link">Read the article</span></a>'''
+    return f'''<a class="insight-card" href="{pathlink(route,post_route(p))}" data-article data-topic="{e(p['topic'])}" data-search="{haystack}">{'<div class="insight-art">'+art(n)+'</div>' if illustration else ''}<span class="tag">{e(p['topic'])}</span><div class="article-meta"><time datetime="{p['date']}">{pretty(p['date'])}</time> · {reading(p)} min read</div><h3>{e(p['title'])}</h3><p>{e(p['excerpt'])}</p><span class="read-link">Read the article</span></a>'''
 
 PRACTICES=[
 {'slug':'patents','name':'Patents','short':'From the first application to the next challenge. Protection grounded in how your invention works.','title':'Patent counsel with a technical foundation.','intro':'Patent prosecution and litigation for software, mechanical systems, and energy technologies.','body':'<p>Understanding an invention starts with understanding the technology. Before becoming a lawyer, Matt Miller worked as a software engineer. He is also a named co-inventor on U.S. patents in image processing and video surveillance.</p><h2>From application to enforcement</h2><p>Matt is a registered patent attorney who prosecutes applications before the U.S. Patent and Trademark Office. His experience includes computer software, mechanical systems, and oil-and-gas exploration and production technologies.</p><p>His practice also includes patent litigation in federal court and proceedings before the Patent Trial and Appeal Board. That experience brings a perspective on disputes to the work of developing and protecting a patent portfolio.</p><h2>Start with the technology and the business</h2><p>A useful conversation begins with what your invention does, how it differs from existing approaches, and what your business wants to accomplish. An inquiry does not create an attorney-client relationship. Please do not send confidential information unless you have already signed paperwork to engage Kean Miller to represent you.</p>','items':['Utility and design patent applications','Patent prosecution before the USPTO','Patent litigation in federal court','Patent Trial and Appeal Board proceedings'],'topics':['Patents','Artificial intelligence']},
@@ -145,7 +147,7 @@ def rewrite_content(body,route):
     return re.sub(r'(href|src)="([^"]*)"',replace,body)
 
 def article(p):
-    route=p['slug']+'/'
+    route=post_route(p)
     body=(ROOT/'content/posts'/f'{p["slug"]}.html').read_text(encoding='utf-8')
     headings=[]
     def heading(m):
@@ -238,7 +240,7 @@ def simple_pages():
     (DIST/'404.html').write_text(error,encoding='utf-8')
 
 def article_aliases(p):
-    target=p['slug']+'/'
+    target=post_route(p)
     for alias in p.get('aliases',[]):
         if not re.fullmatch(r'[a-z0-9]+(?:-[a-z0-9]+)*/',alias) or alias==target:
             raise ValueError(f'Invalid article alias: {alias}')
@@ -263,19 +265,19 @@ def machine_files():
     rss=f'<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>NOLAPATENT — Matt Miller</title><link>{BASE}/blog/</link><description>Intellectual property and technology insights from Matt Miller.</description><language>en-us</language><atom:link href="{BASE}/feed.xml" rel="self" type="application/rss+xml"/>'
     for p in POSTS:
         stamp=format_datetime(datetime.fromisoformat(p['published'].replace('Z','+00:00')))
-        rss+=f'<item><title>{xe(p["title"])}</title><link>{canonical(p["slug"]+"/")}</link><guid isPermaLink="true">{canonical(p["slug"]+"/")}</guid><pubDate>{stamp}</pubDate><description>{xe(p["excerpt"])}</description></item>'
+        rss+=f'<item><title>{xe(p["title"])}</title><link>{canonical(post_route(p))}</link><guid isPermaLink="true">{canonical(post_route(p))}</guid><pubDate>{stamp}</pubDate><description>{xe(p["excerpt"])}</description></item>'
     (DIST/'feed.xml').write_text(rss+'</channel></rss>',encoding='utf-8')
     redirects='/feed/ /feed.xml 301\n'
     for p in POSTS:
         for alias in p.get('aliases',[]):
-            redirects+=f'/{alias} /{p["slug"]}/ 301\n'
+            redirects+=f'/{alias} /{post_route(p)} 301\n'
     for i in range(2,5):
         redirects+=f'/page/{i}/ /blog/ 301\n/blog/page/{i}/ /blog/ 301\n'
     (DIST/'_redirects').write_text(redirects,encoding='utf-8')
     apache='''# Apache: serve static files; no PHP or WordPress required.\n# Configure Options -Indexes and DirectoryIndex index.html in the virtual host, not here.\nErrorDocument 404 /404.html\n<IfModule mod_rewrite.c>\nRewriteEngine On\n# Legacy WordPress query-string permalinks.\n'''
     for p in POSTS:
         for alias in p.get('aliases',[]):
-            apache+=f'RewriteRule ^{re.escape(alias.rstrip("/"))}/?$ /{p["slug"]}/ [R=301,L]\n'
+            apache+=f'RewriteRule ^{re.escape(alias.rstrip("/"))}/?$ /{post_route(p)} [R=301,L]\n'
     for pid,route in ID_ROUTES.items():
         apache+=f'RewriteCond %{{QUERY_STRING}} ^(?:p|page_id)={pid}$\nRewriteRule ^$ /{route}? [R=301,L]\n'
     apache+='RewriteRule ^(?:blog/)?page/[2-9][0-9]*/?$ /blog/ [R=301,L]\nRewriteRule ^feed/?$ /feed.xml [R=301,L]\n</IfModule>\n<IfModule mod_headers.c>\nHeader set X-Content-Type-Options "nosniff"\nHeader set Referrer-Policy "strict-origin-when-cross-origin"\nHeader set Permissions-Policy "camera=(), microphone=(), geolocation=()"\n</IfModule>\n'
