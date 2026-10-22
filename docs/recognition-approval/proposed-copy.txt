@@ -1,0 +1,35 @@
+PROPOSED WEBSITE RECOGNITION — REVIEW COPY
+Prepared October 22, 2026. Approval is not recorded; not deployed to the live website.
+
+HOMEPAGE — below the existing credentials strip, following the hero
+
+Professional recognition
+Best Lawyers®
+New Orleans, Louisiana, United States
+
+Recognized in the 2027 edition of The Best Lawyers in America® for Patent Law and Copyright Law.
+View recognition profile ↗
+
+The entire recognition row links to:
+https://www.bestlawyers.com/lawyers/j-matthew-miller-iii/321008
+
+“The Best Lawyers in America” is italicized in HTML; the Best Lawyers company name is not italicized. Registered symbols are visible HTML superscripts. The recognition row uses the site's ordinary fonts and colors, without an official logo, badge, seal, or imitation of one. No Super Lawyers reference appears on the homepage.
+
+ABOUT ME — immediately before Education and admissions
+
+Professional Recognition
+
+CURRENT RECOGNITION
+The Best Lawyers in America® — 2027
+Recognized in Patent Law and Copyright Law.
+New Orleans, Louisiana, United States
+https://www.bestlawyers.com/lawyers/j-matthew-miller-iii/321008
+
+HISTORICAL RECOGNITION
+Louisiana Super Lawyers Rising Stars — 2016–2019
+Selected in Intellectual Property for four consecutive years.
+https://profiles.superlawyers.com/louisiana/new-orleans/lawyer/j-matthew-miller-iii/7936c2c6-c25d-44eb-89f1-3d256264e30f.html
+
+Publication names are italicized in the HTML. Each recognition title links to the respective official profile. No Super Lawyers logo or badge is used.
+
+Existing responsible-lawyer, firm, office, bar-admission, and general-information notices remain unchanged. Screenshots show the proposed styling and surrounding page context.

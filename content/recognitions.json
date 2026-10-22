@@ -1,0 +1,17 @@
+{
+  "best_lawyers": {
+    "edition": 2027,
+    "publication": "The Best Lawyers in America",
+    "practices": ["Patent Law", "Copyright Law"],
+    "location": "New Orleans, Louisiana, United States",
+    "profile_url": "https://www.bestlawyers.com/lawyers/j-matthew-miller-iii/321008"
+  },
+  "rising_stars": {
+    "publication": "Louisiana Super Lawyers",
+    "designation": "Rising Stars",
+    "years": "2016–2019",
+    "practice": "Intellectual Property",
+    "consecutive_years": "four",
+    "profile_url": "https://profiles.superlawyers.com/louisiana/new-orleans/lawyer/j-matthew-miller-iii/7936c2c6-c25d-44eb-89f1-3d256264e30f.html"
+  }
+}
