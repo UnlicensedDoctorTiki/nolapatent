@@ -67,6 +67,9 @@ class Vocabulary:
             return True
         if {'Date', 'DateTime'} & ranges:
             try:
+                # ISO 8601 permits year precision; do not invent a month or day.
+                if 'Date' in ranges and re.fullmatch(r'[0-9]{4}', value):
+                    return 1 <= int(value) <= 9999
                 if 'T' in value:
                     return 'DateTime' in ranges and datetime.fromisoformat(value.replace('Z', '+00:00')) is not None
                 return 'Date' in ranges and date.fromisoformat(value) is not None
@@ -103,6 +106,7 @@ class Vocabulary:
 def validate_site(root=ROOT, baseline=None):
     profile = json.loads((root / 'content/profile.json').read_text(encoding='utf-8'))
     posts = json.loads((root / 'content/posts.json').read_text(encoding='utf-8'))
+    publications = json.loads((root / 'content/publications.json').read_text(encoding='utf-8'))
     base = profile['base_url'].rstrip('/')
     person_id, firm_id = base + '/#matt-miller', base + '/#kean-miller'
     vocabulary = Vocabulary(root / 'source/schemaorg/schemaorg-current-https.jsonld')
@@ -161,7 +165,13 @@ def validate_site(root=ROOT, baseline=None):
                     f'{label}: personal site must not be marked as a separate law firm')
             for prop in ('datePublished', 'dateModified'):
                 if prop in node:
-                    require(node.get('@type') == 'BlogPosting', f'{label}: unsupported {prop} outside post metadata')
+                    publication_date = (
+                        prop == 'datePublished' and node.get('@type') == 'ScholarlyArticle' and
+                        any(node.get('@id') == base + '/about-me/#' + p['id'] and
+                            node[prop] == p['year'] for p in publications)
+                    )
+                    require(node.get('@type') == 'BlogPosting' or publication_date,
+                            f'{label}: unsupported {prop} outside post/publication metadata')
 
         people = [n for n in graph if n.get('@type') == 'Person']
         require(len(people) == 1 and people[0].get('@id') == person_id, f'{label}: inconsistent Person identity')
@@ -214,6 +224,24 @@ def validate_site(root=ROOT, baseline=None):
             require(webpage.get('@type') == 'ProfilePage' and webpage.get('mainEntity') == {'@id': person_id},
                     f'{label}: profile does not identify the canonical Person')
             require(credential['name'] in doc.text_content(), f'{label}: education not supported by visible biography')
+            visible = ' '.join(doc.xpath('//body//text()[not(ancestor::script)]'))
+            for publication in publications:
+                article = definitions.get(canonical + '#' + publication['id'], {})
+                require(article.get('@type') == 'ScholarlyArticle' and
+                        article.get('name') == publication['title'] and
+                        article.get('url') == publication['url'] and
+                        article.get('datePublished') == publication['year'] and
+                        article.get('pagination') == publication['page'],
+                        f'{label}: publication metadata differs from citation source')
+                require(article.get('author') == [
+                    {'@id': person_id} if name == 'J. Matthew Miller III'
+                    else {'@type': 'Person', 'name': name} for name in publication['authors']
+                ], f'{label}: publication authors/order differ from citation source')
+                require(all(value in visible for value in [publication['title'], *publication['authors'],
+                        publication['year'], publication['proceedings'], publication['publisher'],
+                        publication['doi'], 'p. ' + publication['page']]) and
+                        publication['url'] in doc.xpath('//section[@id="selected-publications"]//a/@href'),
+                        f'{label}: publication details/link missing from rendered citation')
         if canonical == base + '/practice/software-patents/':
             topics = {definitions[n['@id']].get('name') for n in webpage.get('about', [])}
             require({'Software patents', 'Software patent prosecution', 'Patent eligibility under 35 U.S.C. § 101'} <= topics,
