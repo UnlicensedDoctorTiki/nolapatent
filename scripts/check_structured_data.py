@@ -237,9 +237,18 @@ def validate_site(root=ROOT, baseline=None):
                     {'@id': person_id} if name == 'J. Matthew Miller III'
                     else {'@type': 'Person', 'name': name} for name in publication['authors']
                 ], f'{label}: publication authors/order differ from citation source')
-                require(all(value in visible for value in [publication['title'], *publication['authors'],
-                        publication['year'], publication['proceedings'], publication['publisher'],
-                        publication['doi'], 'p. ' + publication['page']]) and
+                details = [publication['title'], *publication['authors'], publication['year']]
+                if publication['kind'] == 'law-review':
+                    details += [publication['journal'], publication['journal_abbreviation'], publication['page']]
+                    require(article.get('isPartOf') == {
+                        '@type': 'PublicationVolume', 'volumeNumber': publication['volume'],
+                        'isPartOf': {'@type': 'Periodical', 'name': publication['journal'],
+                                     'url': 'https://journals.tulane.edu/TIP/'},
+                    }, f'{label}: journal/volume metadata differs from citation source')
+                else:
+                    details += [publication['proceedings'], publication['publisher'], publication['doi'],
+                                'p. ' + publication['page']]
+                require(all(value in visible for value in details) and
                         publication['url'] in doc.xpath('//section[@id="selected-publications"]//a/@href'),
                         f'{label}: publication details/link missing from rendered citation')
         if canonical == base + '/practice/software-patents/':

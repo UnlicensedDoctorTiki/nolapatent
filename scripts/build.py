@@ -185,25 +185,47 @@ def article(p):
 
 def publications(route):
     """Render citations and matching scholarly metadata from the same source."""
-    citations, graph = [], []
-    for publication in PUBLICATIONS:
-        citations.append(f'''<p>{e(publication['intro'])}</p><p>{e(', '.join(publication['authors'][:-1]) + ', and ' + publication['authors'][-1])}. ({e(publication['year'])}). {link(route,publication['url'],e(publication['title']))}. In <em>{e(publication['proceedings'])}</em>, p. {e(publication['page'])}. {e(publication['publisher'])}. DOI: {e(publication['doi'])}.</p>''')
-        graph.append({
+    groups, graph = [], []
+    for kind, heading in [('law-review', 'Law review publications'), ('conference', 'Computer science conference abstract')]:
+        citations = []
+        selected = sorted((p for p in PUBLICATIONS if p['kind'] == kind), key=lambda p: p['year'], reverse=True)
+        for publication in selected:
+            authors = publication['authors']
+            author_text = authors[0] if len(authors) == 1 else ', '.join(authors[:-1]) + ', and ' + authors[-1]
+            if kind == 'law-review':
+                citation = f'''{e(author_text)}, {e(publication['volume'])} <em>{e(publication['journal_abbreviation'])}</em> {e(publication['page'])} ({e(publication['year'])}).'''
+                container = {
+                    '@type': 'PublicationVolume', 'volumeNumber': publication['volume'],
+                    'isPartOf': {'@type': 'Periodical', 'name': publication['journal'], 'url': 'https://journals.tulane.edu/TIP/'},
+                }
+            else:
+                citation = f'''{e(author_text)}. ({e(publication['year'])}). In <em>{e(publication['proceedings'])}</em>, p. {e(publication['page'])}. {e(publication['publisher'])}. DOI: {e(publication['doi'])}.'''
+                container = {'@type': 'CreativeWork', 'name': publication['proceedings']}
+            summary = f'<p class="publication-summary">{e(publication["description"])}</p>' if publication.get('description') else ''
+            citations.append(f'''<li class="publication-entry"><h4>{link(route,publication['url'],e(publication['title']))}</h4><p class="publication-citation">{citation}</p>{summary}</li>''')
+            node = {
             '@type': 'ScholarlyArticle',
             '@id': canonical(route) + '#' + publication['id'],
             'name': publication['title'], 'url': publication['url'],
-            'identifier': {'@type': 'PropertyValue', 'propertyID': 'DOI', 'value': publication['doi']},
             'author': [
                 {'@id': BASE + '/#matt-miller'} if name == 'J. Matthew Miller III'
                 else {'@type': 'Person', 'name': name}
-                for name in publication['authors']
+                for name in authors
             ],
             'datePublished': publication['year'], 'pagination': publication['page'],
-            'genre': 'Conference abstract',
-            'isPartOf': {'@type': 'CreativeWork', 'name': publication['proceedings']},
-            'publisher': {'@type': 'Organization', 'name': publication['publisher']},
-        })
-    return '<section id="selected-publications" aria-labelledby="publications-heading"><h2 id="publications-heading">Selected Publications</h2>' + ''.join(citations) + '</section>', graph
+            'genre': publication['genre'], 'isPartOf': container,
+            }
+            if publication.get('doi'):
+                node['identifier'] = {'@type': 'PropertyValue', 'propertyID': 'DOI', 'value': publication['doi']}
+            if publication.get('publisher'):
+                node['publisher'] = {'@type': 'Organization', 'name': publication['publisher']}
+            if publication.get('description'):
+                node['description'] = publication['description']
+            graph.append(node)
+        intro = ''.join(f'<p>{e(p["intro"])}</p>' for p in selected if p.get('intro'))
+        groups.append(f'<div class="publication-group"><h3 class="publication-group-heading">{heading}</h3>{intro}<ol class="publication-list">' + ''.join(citations) + '</ol></div>')
+    intro = 'While attending Tulane Law School, I published two works in the Tulane Journal of Technology &amp; Intellectual Property examining the intersection of copyright law and the First Amendment. Both addressed constitutional issues surrounding copyright protection that were then working their way through the federal courts.'
+    return '<section id="selected-publications" aria-labelledby="publications-heading"><h2 id="publications-heading">Selected Publications</h2><p>' + intro + '</p>' + ''.join(groups) + '</section>', graph
 
 
 def about():
@@ -211,7 +233,7 @@ def about():
     publication_html, publication_graph = publications(route)
     body=pagehero(route,'A lawyer who understands<br>what you’re building.','Meet Matt Miller, a New Orleans intellectual property attorney with a background in software engineering.','About Matt')
     body+=f'''<div class="wrap profile-grid"><article class="prose"><h2>I speak law. And code.</h2><p>I’m J. Matthew Miller, III—Matt—and I’m Special Counsel at Kean Miller in New Orleans. Before becoming a lawyer, I worked as a software engineer. I bring that firsthand experience to helping developers, technology businesses, and inventors protect their work and make informed legal decisions.</p><p>I’ve written software, developed web and database applications, worked with Linux systems and open-source code, and built mobile apps for the Louisiana Civil Code and Code of Civil Procedure. I’m also a co-inventor on three issued U.S. patents titled <em>Video surveillance system</em>: <a href="https://patents.google.com/patent/US7859564B2/en">7,859,564</a>, <a href="https://patents.google.com/patent/US7956889B2/en">7,956,889</a>, and <a href="https://patents.google.com/patent/US8605155B2/en">8,605,155</a>.</p><h2>Why my software background matters.</h2><p>Technical details can change the legal questions. What does the code do? Who wrote it? Which third-party components does it use? How will it be licensed, delivered, and maintained?</p><p>Having worked as a developer, I can get into those details with your team. That shared understanding helps connect a contract, an IP strategy, or a licensing decision to the product you’re actually building.</p><h2>Software contracts that reflect the project.</h2><p>I help with software development and licensing agreements, including questions about scope, deliverables, ownership, third-party code, and ongoing responsibilities. The goal is to make the agreement fit the work, the relationship, and your commercial plans.</p><h2>Open-Source Licensing</h2><p>I can help assess the licenses that apply to the open-source components in a project and address questions about attribution, distribution, and their use alongside proprietary software. Understanding the code and how it will be used is part of understanding the legal issue.</p><h2>Turning legal rules into software.</h2><p>At Tulane, I developed a general-purpose language, parser, and logic interpreter for the Durationator, translating complex copyright rules into software for analyzing copyright terms worldwide. Professor Elizabeth Townsend Gard discussed the challenges of developing the Durationator in her 2011 law review article. Justice Breyer cited pages 216–220 of that article in <a href="https://www.govinfo.gov/content/pkg/USREPORTS-565/pdf/USREPORTS-565-302.pdf#page=56"><em>Golan v. Holder</em>, 565 U.S. 302, 357 (2012) (Breyer, J., dissenting)</a>, when discussing the difficulty of determining copyright restoration under 17 U.S.C. § 104A.</p><p>Elizabeth Townsend Gard, <a href="https://wp0.vanderbilt.edu/lawreview/wp-content/uploads/sites/278/2011/10/Townsend_Gard_64_Vand_L_Rev_En_Banc_199.pdf"><em>In the Trenches with § 104A: An Evaluation of the Parties’ Arguments in Golan v. Holder as It Heads to the Supreme Court</em></a>, 64 Vand. L. Rev. En Banc 199 (2011).</p><p>In 2009, I also developed and released the first Louisiana Civil Code app for iPhone. <a href="https://www.iphonejd.com/iphone_jd/2009/10/louisiana-civil-code-code-of-civil-procedure-and-code-of-evidence.html">The original iPhone J.D. review</a> describes its searchable legal reference features.</p><h2>My experience as a software engineer.</h2><p>My programming background spans the browser, the server, and the systems underneath them. I’ve written code and HTML in Vim, built software for real projects, and worked through the details that make applications work together.</p><ul><li><strong>Motorola:</strong> As an engineering intern, I developed performance microbenchmarks with the Java virtual machine team.</li><li><strong>Blastro:</strong> As lead developer, I built the front and back ends of a streaming-media website and a framework supporting its expansion.</li><li><strong>Model Software:</strong> I developed a video-surveillance proof of concept, internal time-logging and document-management tools, and a spam-filtering web service with PHP, Java, and VB.NET Outlook clients.</li></ul><p>That experience gives me practical context for questions about software architecture, interfaces, code ownership, and development obligations. You can also find me on GitHub.</p><p>{link(route,P['github_url'],'Explore my GitHub profile <span aria-hidden="true">↗</span>','text-link')}</p><h2>From applications to disputes</h2><p>As a registered patent attorney, I prosecute applications before the U.S. Patent and Trademark Office. My patent work includes software, mechanical systems, and oil-and-gas technologies, as well as litigation in federal court and before the Patent Trial and Appeal Board.</p><p>For a closer look at how I connect software engineering with patent preparation and prosecution, explore my work as a {link(route,"practice/software-patents/","software patent attorney")}.</p><p>I also handle trademark clearance, prosecution, and enforcement; copyright ownership, registration, and enforcement; trade secrets; and internet-related issues, including domain-name proceedings and website policies.</p><p>{link(route,"representative-experience/","Explore representative matters ↗","text-link")}</p><h2>Teaching trademark law through practice.</h2><p>From 2018 to 2021, I served as an Adjunct Professor at Tulane Law School, where I ran the trademark section of its Intellectual Property Law Clinic. I taught students trademark law and supervised their work helping people apply for and obtain trademark registrations.</p>{professional_recognition(route)}<h2>Education and admissions</h2><ul><li>Tulane Law School, J.D., cum laude, 2009</li><li>Duke University, B.A., Computer Science, Psychology</li><li>Louisiana bar admission; registered to practice before the USPTO</li><li>Admissions include Louisiana’s Eastern, Middle, and Western federal district courts, the Fifth Circuit, and the Federal Circuit.</li></ul><p>{link(route,P['bio_url'],'Read my full professional biography at Kean Miller ↗','text-link')}</p><p>{link(route,P['linkedin_url'],'Connect with me on LinkedIn ↗','text-link')}</p></article><aside><img class="profile-photo" src="{pathlink(route,'assets/matt-miller.webp')}" width="700" height="700" alt="Matt Miller, Special Counsel at Kean Miller"><div class="fact-panel"><strong>J. Matthew Miller, III</strong><p>Special Counsel · Kean Miller<br>New Orleans, Louisiana</p><strong>Let’s talk</strong><p><a href="tel:{P['telephone']}">{P['display_phone']}</a><br><a href="mailto:{P['email']}">{P['email']}</a></p><strong>Code and perspective</strong><p>{link(route,P['github_url'],'Matt on GitHub ↗')}<br>{link(route,'practice/technology/','Software & technology counsel ↗')}</p><strong>On this site</strong><p>{link(route,'blog/','Explore the journal ↗')}<br>{link(route,'ios/','Software projects ↗')}</p></div></aside></div>'''
-    body=body.replace('<h2>From applications to disputes</h2>', publication_html + '<h2>From applications to disputes</h2>', 1)
+    body=body.replace(professional_recognition(route), publication_html + professional_recognition(route), 1)
     page(route,'About Matt Miller', 'Matt Miller is a former software engineer and Kean Miller IP attorney helping with software contracts, open-source issues, licensing, and patent protection.',body,'ProfilePage',publication_graph)
 
 def representative_experience():

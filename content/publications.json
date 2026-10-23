@@ -1,6 +1,36 @@
 [
   {
+    "id": "the-trouble-with-traditions-2008",
+    "kind": "law-review",
+    "genre": "Law review comment",
+    "title": "The Trouble with Traditions: The Split over Eldred’s Traditional Contours Guidelines, How They Might Be Applied, and Why They Ultimately Fail",
+    "authors": ["J. Matthew Miller III"],
+    "year": "2008",
+    "journal": "Tulane Journal of Technology & Intellectual Property",
+    "journal_abbreviation": "Tul. J. Tech. & Intell. Prop.",
+    "volume": "11",
+    "page": "91",
+    "url": "https://journals.tulane.edu/TIP/article/view/2556",
+    "description": "Examines the traditional contours framework from Eldred v. Ashcroft, its differing application by the federal courts, and its shortcomings as a guide to First Amendment scrutiny of copyright law."
+  },
+  {
+    "id": "golan-v-gonzales-2007",
+    "kind": "law-review",
+    "genre": "Case note",
+    "title": "Golan v. Gonzales: How Copyright Restoration Alters the Ordinary Copyright Sequence and Invites First Amendment Review",
+    "authors": ["J. Matthew Miller III"],
+    "year": "2007",
+    "journal": "Tulane Journal of Technology & Intellectual Property",
+    "journal_abbreviation": "Tul. J. Tech. & Intell. Prop.",
+    "volume": "10",
+    "page": "353",
+    "url": "https://journals.tulane.edu/TIP/article/view/2545",
+    "description": "Analyzes the Tenth Circuit’s decision on restoring copyright protection to foreign works previously in the public domain and the resulting First Amendment questions."
+  },
+  {
     "id": "virtual-reality-in-education-1998",
+    "kind": "conference",
+    "genre": "Conference abstract",
     "title": "Virtual Reality in Education: Irish and American Students Meet on the Virtual Frontier",
     "authors": ["Casey D. Charvet", "J. Matthew Miller III", "Jonah H. Peretti"],
     "year": "1998",
