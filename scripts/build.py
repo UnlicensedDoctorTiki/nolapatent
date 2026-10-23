@@ -184,7 +184,7 @@ def article(p):
     if p.get('modified'):schema['dateModified']=p['modified']
     page(route,p['title'],p['excerpt'],full,'Article',[schema])
 
-def publications(route):
+def publications(route, compact=False):
     """Render citations and matching scholarly metadata from the same source."""
     groups, graph = [], []
     for kind, heading in [('law-review', 'Law review publications'), ('conference', 'Computer science conference abstract')]:
@@ -202,7 +202,7 @@ def publications(route):
             else:
                 citation = f'''{e(author_text)}. ({e(publication['year'])}). In <em>{e(publication['proceedings'])}</em>, p. {e(publication['page'])}. {e(publication['publisher'])}. DOI: {e(publication['doi'])}.'''
                 container = {'@type': 'CreativeWork', 'name': publication['proceedings']}
-            summary = f'<p class="publication-summary">{e(publication["description"])}</p>' if publication.get('description') else ''
+            summary = f'<p class="publication-summary">{e(publication["description"])}</p>' if publication.get('description') and not compact else ''
             citations.append(f'''<li class="publication-entry"><h4>{link(route,publication['url'],e(publication['title']))}</h4><p class="publication-citation">{citation}</p>{summary}</li>''')
             node = {
             '@type': 'ScholarlyArticle',
@@ -223,15 +223,17 @@ def publications(route):
             if publication.get('description'):
                 node['description'] = publication['description']
             graph.append(node)
-        intro = ''.join(f'<p>{e(p["intro"])}</p>' for p in selected if p.get('intro'))
+        intro = ''.join(f'<p>{e(p["intro"])}</p>' for p in selected if p.get('intro') and not compact)
         groups.append(f'<div class="publication-group"><h3 class="publication-group-heading">{heading}</h3>{intro}<ol class="publication-list">' + ''.join(citations) + '</ol></div>')
     intro = 'While attending Tulane Law School, I published two works in the Tulane Journal of Technology &amp; Intellectual Property examining the intersection of copyright law and the First Amendment. Both addressed constitutional issues surrounding copyright protection that were then working their way through the federal courts.'
+    if compact:
+        intro = 'My writing in the Tulane Journal of Technology &amp; Intellectual Property examined copyright and the First Amendment. The earlier ACM publication is a coauthored conference abstract from my undergraduate years.'
     return '<section id="selected-publications" aria-labelledby="publications-heading"><h2 id="publications-heading">Selected Publications</h2><p>' + intro + '</p>' + ''.join(groups) + '</section>', graph
 
 
 def about():
     route='about-me/'
-    publication_html, publication_graph = publications(route)
+    publication_html, publication_graph = publications(route, compact=True)
     body=(ROOT/'content/pages/about.html').read_text(encoding='utf-8')
     components={
         'publications':publication_html, 'recognition':professional_recognition(route),
