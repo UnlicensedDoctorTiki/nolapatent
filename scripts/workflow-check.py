@@ -8,6 +8,7 @@ with tempfile.TemporaryDirectory(prefix='post-workflow-',dir=ROOT/'qa') as work:
     shutil.copytree(ROOT/'content',stage/'content')
     shutil.copytree(ROOT/'assets',stage/'assets')
     shutil.copytree(ROOT/'source',stage/'source')
+    shutil.copy2(ROOT/'GoogleAnalytics.txt',stage/'GoogleAnalytics.txt')
     (stage/'scripts').mkdir()
     for name in ['add_post.py','build.py','structured_data.py','check.py','check_structured_data.py']:
         shutil.copy2(ROOT/'scripts'/name,stage/'scripts'/name)

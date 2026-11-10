@@ -9,6 +9,7 @@ errors=[]
 pages=list(DIST.rglob('*.html'))
 titles={}
 notes=[]
+analytics=(ROOT/'GoogleAnalytics.txt').read_text(encoding='utf-8').strip()
 for path in pages:
     raw=path.read_text(encoding='utf-8')
     doc=html.fromstring(raw)
@@ -18,6 +19,10 @@ for path in pages:
     require(len(doc.xpath('//main'))==1,'Expected one main landmark')
     require(bool(doc.xpath('//meta[@name="description"]/@content')),'Missing description')
     require(bool(doc.xpath('//link[@rel="canonical"]/@href')),'Missing canonical')
+    is_redirect=bool(doc.xpath('//meta[@http-equiv="refresh"]'))
+    require(raw.count(analytics)==(0 if is_redirect else 1),'Google tag missing or duplicated')
+    if not is_redirect:
+        require(analytics in raw.split('</head>',1)[0],'Google tag must be in the delivered head')
     require(not re.search(r'carver|twitter\.com|t\.co/|\[nggallery|wp-json|wp-admin|wp-login\.php',raw,re.I),'Obsolete firm/social/plugin reference')
     title=doc.xpath('string(//title)')
     if path.name!='404.html' and '404' not in path.parts:

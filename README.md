@@ -34,6 +34,8 @@ The build happens before deployment. The production server serves ordinary files
 - Page titles, descriptions, canonical links, Open Graph previews, and JSON-LD structured data.
 - The RSS feed, XML sitemap, robots.txt, optional llms.txt, redirects, and 404 page.
 
+The shared page template includes the Google tag from [`GoogleAnalytics.txt`](GoogleAnalytics.txt) in each page's HTML head. Edit that file and rebuild to change the installation. Immediate redirect aliases omit the tag to avoid measuring both the redirect and its destination. Analytics destinations and container settings are managed in Google's interface; the website's [privacy page](https://www.nolapatent.com/privacy/) describes the use of Google's analytics tools. After deploying, verify data collection with Google Tag Assistant and Analytics Realtime.
+
 The journal search runs in the visitor's browser against a generated index. It doesn't query a database or load every article into one hidden page. Semantic HTML and structured data make the content easier for readers, search engines, and other tools to understand; they don't guarantee rankings or recommendations.
 
 ## Where the files live
